@@ -2,29 +2,59 @@ import { useState } from "react";
 import Nav from "../components/Nav";
 
 export default function Form() {
-  const [name, setName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    dob: "",
+  }); 
+  const [submitted, setSubmitted] = useState(false); 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   return (
-    <div>
-      {/* Navigation */}
+    <div className="form-container">
       <Nav />
+      <h1>Fill Out the Form</h1>
 
-      {/* Form Content */}
-      <div className="form-container">
-        <h1>Enter your name:</h1>
-        <input
-          type="text"
-          placeholder="Your name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button onClick={() => setSubmitted(true)}>Submit</button>
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <input
+        type="date"
+        name="dob"
+        placeholder="Your Date of Birth"
+        value={formData.dob}
+        onChange={handleChange}
+      />
 
-        {/* Greeting Message */}
-        {submitted && <p>Hello, {name}!</p>}
-      </div>
+      <button onClick={() => setSubmitted(true)}>Submit</button>
 
-      {/* Styling */}
+      {submitted && (
+        <div className="result">
+          <h2>Submitted Information</h2>
+          <p><strong>Name:</strong> {formData.name}</p>
+          <p><strong>Email:</strong> {formData.email}</p>
+          <p><strong>Date of Birth:</strong> {formData.dob}</p>
+        </div>
+      )}
+
       <style jsx>{`
         .form-container {
           text-align: center;
@@ -38,7 +68,7 @@ export default function Form() {
         }
         h1 {
           margin-bottom: 20px;
-          color: #0070f3;
+          color:rgb(24, 2, 102);
         }
         input {
           width: 100%;
@@ -52,7 +82,7 @@ export default function Form() {
           padding: 10px 20px;
           border: none;
           border-radius: 4px;
-          background-color: #0070f3;
+          background-color:rgb(243, 0, 0);
           color: white;
           font-size: 16px;
           cursor: pointer;
@@ -61,10 +91,12 @@ export default function Form() {
         button:hover {
           background-color: #005bb5;
         }
-        p {
+        .result {
           margin-top: 20px;
-          font-size: 18px;
-          color: #333;
+          text-align: left;
+        }
+        .result h2 {
+          color: #0070f3;
         }
       `}</style>
     </div>
